@@ -5,6 +5,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -246,6 +247,35 @@
             </objects>
             <point key="canvasLocation" x="1189.5999999999999" y="115.59220389805098"/>
         </scene>
+        <!--Mapa View Controller-->
+        <scene sceneID="6yN-DP-bnw">
+            <objects>
+                <viewController storyboardIdentifier="mapa" id="Og3-Kq-myT" customClass="MapaViewController" customModule="Agenda" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="cdh-bj-iQy">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="lNh-Fo-Bwe">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            </mapView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="oVQ-fC-Pwz"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="lNh-Fo-Bwe" firstAttribute="top" secondItem="oVQ-fC-Pwz" secondAttribute="top" id="EgL-kJ-spB"/>
+                            <constraint firstItem="lNh-Fo-Bwe" firstAttribute="trailing" secondItem="oVQ-fC-Pwz" secondAttribute="trailing" id="ejA-wq-TbV"/>
+                            <constraint firstItem="lNh-Fo-Bwe" firstAttribute="bottom" secondItem="oVQ-fC-Pwz" secondAttribute="bottom" id="mbh-Ma-9wD"/>
+                            <constraint firstItem="lNh-Fo-Bwe" firstAttribute="leading" secondItem="oVQ-fC-Pwz" secondAttribute="leading" id="rGQ-pu-Auq"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="mapa" destination="lNh-Fo-Bwe" id="xZp-0n-Xmq"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mqR-CP-uY8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2084" y="115.59220389805098"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="yXs-rW-FGy">
             <objects>
@@ -264,6 +294,11 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="bI0-eM-7u7"/>
+        <segue reference="tio-sZ-JlU"/>
     </inferredMetricsTieBreakers>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
 </document>

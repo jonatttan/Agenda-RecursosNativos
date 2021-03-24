@@ -21,6 +21,7 @@ class HomeTableViewController: UITableViewController, UISearchBarDelegate, NSFet
     let searchController = UISearchController(searchResultsController: nil)
     var gerenciadorDeResultados:NSFetchedResultsController<Aluno>?
     var alunoViewController:AlunoViewController?
+    var mensagem = Mensagem()
     
     // MARK: - View Lifecycle
 
@@ -60,7 +61,54 @@ class HomeTableViewController: UITableViewController, UISearchBarDelegate, NSFet
     }
     
     @objc func abrirActionSheet(_ longPress:UILongPressGestureRecognizer) {
-        print("LONG PRESS ACIONADO")
+        if longPress.state == .began {
+            //Dando erro aqui, o alunoSelecionado é o incorreto.
+            guard let alunoSelecionado = gerenciadorDeResultados?.fetchedObjects?[(longPress.view?.tag)!] else { return }
+            // Pegamos o aluno para passar à constante componenteMensagem
+            let menu = MenuOpcoesAlunos().configuraMenuOpcoesAluno (completion: { (opcao) in
+                switch opcao {
+                case .sms:
+                    if let componenteMensagem = self.mensagem.configuraSMS(alunoSelecionado) {
+                        componenteMensagem.messageComposeDelegate = self.mensagem
+                        self.present(componenteMensagem, animated: true, completion: nil)
+                    }
+                    break
+                case .ligacao:
+                    guard let numeroAluno = alunoSelecionado.telefone else { return }
+                    if let url  = URL(string: "tel://\(numeroAluno)"), UIApplication.shared.canOpenURL(url){
+                        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                    }
+                    break
+                case .waze:
+                    if UIApplication.shared.canOpenURL(URL(string: "waze://")!) {
+                        guard let enderecoDoAluno = alunoSelecionado.endereco else { return }
+                        Localizacao().converteEnderecoEmCoordenadas(endereco: enderecoDoAluno, local: { (localizacaoEncontrada) in
+                            
+                            let latitude = String(describing:localizacaoEncontrada.location?.coordinate.latitude)
+                            let longitude = String(describing:localizacaoEncontrada.location?.coordinate.longitude)
+                            let url:String = "waze://?ll=\(latitude),\(longitude)&navigate=yes"
+                            UIApplication.shared.open(URL(string: url)!, options: [:], completionHandler: nil)
+                        })
+                    }
+                    break
+                case .mapa:
+                    
+                    let mapa = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "mapa") as! MapaViewController //Resgatando o StoryBoard a ser exibido
+                    mapa.aluno = alunoSelecionado
+                    self.navigationController?.pushViewController(mapa, animated: true) // Empurrando a tela resgatada a cima
+                    
+                    break
+                    
+                }
+            })
+//            let menu = MenuOpcoesAlunos().configuraMenuOpcoesAluno(completion: { (opcao) in
+//              switch opcao {
+//              case .sms:
+//                  print("sms")
+//              }
+//            })
+            self.present(menu, animated: true, completion: nil)
+        }
     }
 
     // MARK: - Table view data source
@@ -108,8 +156,6 @@ class HomeTableViewController: UITableViewController, UISearchBarDelegate, NSFet
         //Seleção de aluno para edição e atribiução para a proxima controller(AlunoViewController)
         alunoViewController?.aluno = alunoSelecionado
         
-        
-        
     }
     
     
@@ -125,13 +171,4 @@ class HomeTableViewController: UITableViewController, UISearchBarDelegate, NSFet
             tableView.reloadData()
         }
     }
-    
-    
-    
-    
-    
-    
-    
-    
-
 }
