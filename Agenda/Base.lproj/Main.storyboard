@@ -40,6 +40,7 @@
                                 <connections>
                                     <outlet property="imageAluno" destination="I1a-iL-YQH" id="dM3-yt-b69"/>
                                     <outlet property="labelNomeDoAluno" destination="oKL-i4-VS5" id="GFr-bb-rep"/>
+                                    <segue destination="ZY7-NM-Hup" kind="show" identifier="editar" id="bI0-eM-7u7"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -201,6 +202,9 @@
                                                 <state key="normal" title="salvar">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
+                                                <connections>
+                                                    <action selector="buttonSalvar:" destination="ZY7-NM-Hup" eventType="touchUpInside" id="ff1-FH-V7u"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                     </stackView>
@@ -225,6 +229,7 @@
                             <constraint firstItem="kjd-vi-ppJ" firstAttribute="leading" secondItem="nVT-S7-kWk" secondAttribute="leading" constant="16" id="tnp-nO-LJA"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="a3U-ea-brO"/>
                     <connections>
                         <outlet property="buttonFoto" destination="X6G-KS-zIE" id="TSZ-IB-8Ah"/>
                         <outlet property="imageAluno" destination="EeF-Ef-j6E" id="0lP-oI-Din"/>
@@ -258,4 +263,7 @@
             <point key="canvasLocation" x="-519" y="116"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="bI0-eM-7u7"/>
+    </inferredMetricsTieBreakers>
 </document>
