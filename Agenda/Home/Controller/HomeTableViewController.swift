@@ -62,7 +62,7 @@ class HomeTableViewController: UITableViewController, UISearchBarDelegate, NSFet
     
     @objc func abrirActionSheet(_ longPress:UILongPressGestureRecognizer) {
         if longPress.state == .began {
-            //Dando erro aqui, o alunoSelecionado é o incorreto.
+            //Dando erro aqui, o alunoSelecionado é o incorreto. Pegar o fetched objects e debugar, contar o nº de objetos dentro dele, percorrer...
             guard let alunoSelecionado = gerenciadorDeResultados?.fetchedObjects?[(longPress.view?.tag)!] else { return }
             // Pegamos o aluno para passar à constante componenteMensagem
             let menu = MenuOpcoesAlunos().configuraMenuOpcoesAluno (completion: { (opcao) in
@@ -173,11 +173,14 @@ class HomeTableViewController: UITableViewController, UISearchBarDelegate, NSFet
     }
     
     @IBAction func buttonCalculaMedia(_ sender: UIBarButtonItem) {
-        CalculaMediaAPI().calculaMediaGeralDosAlunos()
+        guard let listaDeAlunos = gerenciadorDeResultados?.fetchedObjects else { return }
+        CalculaMediaAPI().calculaMediaGeralDosAlunos(alunos: listaDeAlunos) { (dicionario) in // Aqui é enviado o listaDeAlunos ao método para processamento, em caso de sucesso, nos devolverá o dicionário, que será usado no alerta.
+            if let alerta = Notificacoes().exibeNotificacaoDeMediaDosAlunos(dicionarioDeMedia: dicionario) { //Não satifaz a condição, motivo ainda desconhecido
+                self.present(alerta, animated: true, completion: nil)
+            }
+        } falha: { (error) in
+            print(error.localizedDescription)
+            print("Deu erro")
+        }
     }
-    
-    
-    
-    
-    
 }
