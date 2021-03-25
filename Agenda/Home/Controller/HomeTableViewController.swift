@@ -45,10 +45,14 @@ class HomeTableViewController: UITableViewController, UISearchBarDelegate, NSFet
         self.navigationItem.searchController = searchController
     }
     
-    func recuperaAluno() {
+    func recuperaAluno(filtro:String = "") { // Definindo dessa forma na assinatura, cria-se duas opções de chamada do método.
         let pesquisaAluno:NSFetchRequest<Aluno> = Aluno.fetchRequest()
         let ordenaPorNome = NSSortDescriptor(key: "nome", ascending: true)
         pesquisaAluno.sortDescriptors = [ordenaPorNome]
+        
+        if verificaFiltro(filtro){
+            pesquisaAluno.predicate = filtraAluno(filtro)
+        }
         
         gerenciadorDeResultados = NSFetchedResultsController(fetchRequest: pesquisaAluno, managedObjectContext: contexto, sectionNameKeyPath: nil, cacheName: nil)
         gerenciadorDeResultados?.delegate = self
@@ -59,6 +63,22 @@ class HomeTableViewController: UITableViewController, UISearchBarDelegate, NSFet
             print(error.localizedDescription)
         }
     }
+    
+    
+    
+    //MARK: - NSPredicate (filtro)
+    func filtraAluno(_ filtro: String) -> NSPredicate {
+        return NSPredicate(format: "nome CONTAINS %@", filtro)
+    }
+    
+    func verificaFiltro(_ filtro:String) -> Bool {
+        if filtro.isEmpty {
+            return false
+        }
+        return true
+    }
+    
+    
     
     @objc func abrirActionSheet(_ longPress:UILongPressGestureRecognizer) {
         if longPress.state == .began {
@@ -136,13 +156,20 @@ class HomeTableViewController: UITableViewController, UISearchBarDelegate, NSFet
 
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            guard let alunoSelecionado = gerenciadorDeResultados?.fetchedObjects![indexPath.row] else { return }
-            contexto.delete(alunoSelecionado)
             
-            do {
-                try contexto.save()
-            } catch {
-                print(error.localizedDescription)
+            AutenticacaoLocal().autorizaUsuario { (autenticado) in
+                if autenticado {
+                    DispatchQueue.main.async { // Consertando problema de thread, dispachando para fila da thread principal, para então ser executada.
+                        guard let alunoSelecionado = self.gerenciadorDeResultados?.fetchedObjects![indexPath.row] else { return }
+                        self.contexto.delete(alunoSelecionado)
+                        
+                        do {
+                            try self.contexto.save()
+                        } catch {
+                            print(error.localizedDescription)
+                        }
+                    }
+                }
             }
             
         } else if editingStyle == .insert {
@@ -175,7 +202,7 @@ class HomeTableViewController: UITableViewController, UISearchBarDelegate, NSFet
     @IBAction func buttonCalculaMedia(_ sender: UIBarButtonItem) {
         guard let listaDeAlunos = gerenciadorDeResultados?.fetchedObjects else { return }
         CalculaMediaAPI().calculaMediaGeralDosAlunos(alunos: listaDeAlunos) { (dicionario) in // Aqui é enviado o listaDeAlunos ao método para processamento, em caso de sucesso, nos devolverá o dicionário, que será usado no alerta.
-            if let alerta = Notificacoes().exibeNotificacaoDeMediaDosAlunos(dicionarioDeMedia: dicionario) { //Não satifaz a condição, motivo ainda desconhecido
+            if let alerta = Notificacoes().exibeNotificacaoDeMediaDosAlunos(dicionarioDeMedia: dicionario) { //Não satifaz a condição, suspeita de  algum problema com o gerenciadorDeResultados, indice incorreto.
                 self.present(alerta, animated: true, completion: nil)
             }
         } falha: { (error) in
@@ -183,4 +210,31 @@ class HomeTableViewController: UITableViewController, UISearchBarDelegate, NSFet
             print("Deu erro")
         }
     }
+    
+    //MARK: - SearchBarDelegate
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        guard let nomeDoAluno = searchBar.text else { return }
+        recuperaAluno(filtro: nomeDoAluno)
+        tableView.reloadData()
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        recuperaAluno()
+        tableView.reloadData()
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }
