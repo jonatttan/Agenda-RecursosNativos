@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import SafariServices
 
 class HomeTableViewController: UITableViewController, UISearchBarDelegate, NSFetchedResultsControllerDelegate {
     
@@ -118,15 +119,26 @@ class HomeTableViewController: UITableViewController, UISearchBarDelegate, NSFet
                     self.navigationController?.pushViewController(mapa, animated: true) // Empurrando a tela resgatada a cima
                     
                     break
+                case .abrirPaginaWeb:
                     
+                    if let urlDoAluno = alunoSelecionado.site {
+                        
+                        var urlFormatada = urlDoAluno
+                        if !urlFormatada.hasPrefix("http://") { //Verifica se a variável se inicia com http://
+                            urlFormatada = String(format: "http://%@", urlFormatada)
+                        }
+                        
+                        guard let url = URL(string: urlFormatada) else { return }
+                        
+                        //UIApplication.shared.open(url, options: [:], completionHandler: nil) // Abertura da url em página livre no navegador
+                        let safariViewController = SFSafariViewController(url: url) // Abertura da url em página estática no navegador
+                        
+                        self.present(safariViewController, animated: true, completion: nil)
+                    }
+                    
+                    break
                 }
             })
-//            let menu = MenuOpcoesAlunos().configuraMenuOpcoesAluno(completion: { (opcao) in
-//              switch opcao {
-//              case .sms:
-//                  print("sms")
-//              }
-//            })
             self.present(menu, animated: true, completion: nil)
         }
     }
@@ -141,6 +153,7 @@ class HomeTableViewController: UITableViewController, UISearchBarDelegate, NSFet
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "celula-aluno", for: indexPath) as! HomeTableViewCell
+        cell.tag = indexPath.row // Esta é a resolução do problema com abertura do AlertController, onde qualquer registro pressionado correspodia ao primeiro da lista.
         let longPress = UILongPressGestureRecognizer(target: self, action: #selector(abrirActionSheet(_:)))
         guard let aluno = gerenciadorDeResultados?.fetchedObjects![indexPath.row] else { return cell }
 
@@ -202,7 +215,7 @@ class HomeTableViewController: UITableViewController, UISearchBarDelegate, NSFet
     @IBAction func buttonCalculaMedia(_ sender: UIBarButtonItem) {
         guard let listaDeAlunos = gerenciadorDeResultados?.fetchedObjects else { return }
         CalculaMediaAPI().calculaMediaGeralDosAlunos(alunos: listaDeAlunos) { (dicionario) in // Aqui é enviado o listaDeAlunos ao método para processamento, em caso de sucesso, nos devolverá o dicionário, que será usado no alerta.
-            if let alerta = Notificacoes().exibeNotificacaoDeMediaDosAlunos(dicionarioDeMedia: dicionario) { //Não satifaz a condição, suspeita de  algum problema com o gerenciadorDeResultados, indice incorreto.
+            if let alerta = Notificacoes().exibeNotificacaoDeMediaDosAlunos(dicionarioDeMedia: dicionario) {
                 self.present(alerta, animated: true, completion: nil)
             }
         } falha: { (error) in
@@ -210,6 +223,13 @@ class HomeTableViewController: UITableViewController, UISearchBarDelegate, NSFet
             print("Deu erro")
         }
     }
+    
+    
+    @IBAction func buttonLocaliazacaoGeral(_ sender: UIBarButtonItem) { // Chamando tela do mapa
+        let mapa = UIStoryboard(name: "Main" , bundle: nil).instantiateViewController(withIdentifier: "mapa") as! MapaViewController
+        navigationController?.pushViewController(mapa, animated: true)
+    }
+    
     
     //MARK: - SearchBarDelegate
     
@@ -225,6 +245,7 @@ class HomeTableViewController: UITableViewController, UISearchBarDelegate, NSFet
     }
     
     
+
     
     
     

@@ -16,6 +16,8 @@
 		03AA17681FC843B1003CB2B8 /* HomeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03AA17671FC843B1003CB2B8 /* HomeTableViewCell.swift */; };
 		03AA176D1FC8515A003CB2B8 /* AlunoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03AA176C1FC8515A003CB2B8 /* AlunoViewController.swift */; };
 		890FAA3B260CB6430060528B /* AutenticacaoLocal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 890FAA3A260CB6430060528B /* AutenticacaoLocal.swift */; };
+		890FAA3F260CCF050060528B /* Pino.swift in Sources */ = {isa = PBXBuildFile; fileRef = 890FAA3E260CCF050060528B /* Pino.swift */; };
+		890FAA43260D2B4C0060528B /* icon_caelum.png in Resources */ = {isa = PBXBuildFile; fileRef = 890FAA42260D2B4B0060528B /* icon_caelum.png */; };
 		898040E3260BF6EC003F06AE /* CalculaMediaAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 898040E2260BF6EC003F06AE /* CalculaMediaAPI.swift */; };
 		898040E7260C165B003F06AE /* Notificacoes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 898040E6260C165B003F06AE /* Notificacoes.swift */; };
 		89A514C5260B84530033B5B0 /* MenuOpcoesAlunos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A514C4260B84530033B5B0 /* MenuOpcoesAlunos.swift */; };
@@ -37,6 +39,8 @@
 		03AA17671FC843B1003CB2B8 /* HomeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTableViewCell.swift; sourceTree = "<group>"; };
 		03AA176C1FC8515A003CB2B8 /* AlunoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlunoViewController.swift; sourceTree = "<group>"; };
 		890FAA3A260CB6430060528B /* AutenticacaoLocal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutenticacaoLocal.swift; sourceTree = "<group>"; };
+		890FAA3E260CCF050060528B /* Pino.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pino.swift; sourceTree = "<group>"; };
+		890FAA42260D2B4B0060528B /* icon_caelum.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_caelum.png; sourceTree = "<group>"; };
 		898040E2260BF6EC003F06AE /* CalculaMediaAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculaMediaAPI.swift; sourceTree = "<group>"; };
 		898040E6260C165B003F06AE /* Notificacoes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notificacoes.swift; sourceTree = "<group>"; };
 		89A514C4260B84530033B5B0 /* MenuOpcoesAlunos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuOpcoesAlunos.swift; sourceTree = "<group>"; };
@@ -76,6 +80,7 @@
 		03AA174C1FC84154003CB2B8 /* Agenda */ = {
 			isa = PBXGroup;
 			children = (
+				890FAA41260D2B4B0060528B /* Assets */,
 				03AA174D1FC84154003CB2B8 /* AppDelegate.swift */,
 				03AA17621FC8433E003CB2B8 /* Home */,
 				03AA17691FC84A2D003CB2B8 /* Alunos */,
@@ -140,6 +145,22 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		890FAA3D260CCEE70060528B /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				890FAA3E260CCF050060528B /* Pino.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		890FAA41260D2B4B0060528B /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				890FAA42260D2B4B0060528B /* icon_caelum.png */,
+			);
+			path = Assets;
+			sourceTree = "<group>";
+		};
 		898040E1260BF6CA003F06AE /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -151,6 +172,7 @@
 		89A514CD260BAE8E0033B5B0 /* Mapa */ = {
 			isa = PBXGroup;
 			children = (
+				890FAA3D260CCEE70060528B /* Model */,
 				89A514CE260BAEAE0033B5B0 /* Controller */,
 			);
 			path = Mapa;
@@ -237,6 +259,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				03AA175B1FC84154003CB2B8 /* LaunchScreen.storyboard in Resources */,
+				890FAA43260D2B4C0060528B /* icon_caelum.png in Resources */,
 				03AA17581FC84154003CB2B8 /* Assets.xcassets in Resources */,
 				03AA17531FC84154003CB2B8 /* Main.storyboard in Resources */,
 			);
@@ -250,6 +273,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				03AA176D1FC8515A003CB2B8 /* AlunoViewController.swift in Sources */,
+				890FAA3F260CCF050060528B /* Pino.swift in Sources */,
 				03AA17661FC84353003CB2B8 /* HomeTableViewController.swift in Sources */,
 				03AA17561FC84154003CB2B8 /* Agenda.xcdatamodeld in Sources */,
 				89CAB469260A2CCB002A4F3A /* ImagePicker.swift in Sources */,

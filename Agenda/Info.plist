@@ -2,6 +2,21 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>UIApplicationShortcutItems</key>
+	<array>
+		<dict>
+			<key>UIApplicationShortcutItemIconType</key>
+			<string>UIApplicationShortcutIconTypeCompose</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>Cadastrar Aluno</string>
+			<key>UIApplicationShortcutItemType</key>
+			<string>CadastrarAluno</string>
+		</dict>
+	</array>
+	<key>LSApplicationCategoryType</key>
+	<string></string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Este aplicativo precisa utilizar sua localização</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Este aplicativo precisa da camera para preenchimento de formulário.</string>
 	<key>CFBundleDevelopmentRegion</key>
@@ -43,9 +58,9 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-    <key>LSApplicationQueriesSchemes</key>
-    <array>
-      <string>waze</string>
-    </array>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>waze</string>
+	</array>
 </dict>
 </plist>
